@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demos.dao.UserDao">
+    <insert id="insert">
+  		insert into user(id,account,password,name,birth,create_time,sex)
+  		values(#{id},#{account},#{password},#{name},#{birth},#{createTime},#{sex});
+  	</insert>
+
+
+    <update id="update">
+        update user
+        <set>
+            <if test="e.name != null">name=#{e.name},</if>
+            <if test="e.account != null">account=#{e.account},</if>
+            <if test="e.password != null">password=#{e.password},</if>
+            <if test="e.createTime != null">create_time=#{e.createTime},</if>
+            <if test="e.birth != null">birth=#{e.birth},</if>
+            <if test="e.sex != null">sex=#{e.sex},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <delete id="delete">
+        delete from user where id = #{id}
+    </delete>
+
+    <select id="select" resultMap="UserMap">
+        select * from user where
+  		${column}=#{value}
+    </select>
+
+    <select id="selectByDate" resultMap="UserMap">
+        select * from user where
+  		birth=date_format(#{birth},'%Y-%m-%d')
+    </select>
+
+    <select id="selectAll" resultMap="UserMap">
+        select * from user
+        <if test="orderByColumn!=null">
+            order by ${orderByColumn};
+        </if>
+    </select>
+
+    <resultMap type="com.example.demos.entity.UserEntity" id="UserMap">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="account" property="account"/>
+        <result column="password" property="password"/>
+        <result column="birth" property="birth"/>
+        <result column="create_time" property="createTime"/>
+        <result column="sex" property="sex"/>
+    </resultMap>
+</mapper>
