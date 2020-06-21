@@ -11,4 +11,5 @@ import java.util.Date;
 @Repository
 public interface UserDao extends TemplateDao<UserEntity>{
     UserEntity selectByDate(@Param("birth") String birth)throws SQLException;
+//  UserEntity selectOne(@Param("account")String account,@Param("password")String password)throws SQLException;
 }
